@@ -1,0 +1,61 @@
+{
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "model": "opus",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *.go) ;; *) exit 0 ;; esac; L=\"$HOME/go/bin/golangci-lint\"; [ -x \"$L\" ] || exit 0; \"$L\" fmt -E goimports \"$f\"; d=$(dirname \"$f\"); n=; git -C \"$d\" rev-parse -q --verify HEAD >/dev/null 2>&1 && n=--new-from-rev=HEAD; out=$(cd \"$d\" && \"$L\" run $n . 2>&1) || { echo \"$out\" >&2; exit 2; }; exit 0"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "$HOME/.claude/statusline.sh",
+    "padding": 0,
+    "refreshInterval": 10
+  },
+  "enabledPlugins": {
+    "i-have-adhd@i-have-adhd": true,
+    "cc-plugin-you-should-know@builtin": true,
+    "superpowers@anthropic-plugin-directory": false,
+    "frontend-design@anthropic-plugin-directory": true,
+    "mattpocock-skills@mattpocock": true,
+    "gopls-lsp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "i-have-adhd": {
+      "source": {
+        "source": "github",
+        "repo": "ayghri/i-have-adhd"
+      }
+    },
+    "mattpocock": {
+      "source": {
+        "source": "github",
+        "repo": "mattpocock/skills"
+      }
+    }
+  },
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "medium"
+    }
+  },
+  "advisorModel": "opus",
+  "voice": {
+    "enabled": false,
+    "mode": "tap"
+  },
+  "theme": "auto",
+  "agentPushNotifEnabled": true,
+  "voiceEnabled": false
+}
+

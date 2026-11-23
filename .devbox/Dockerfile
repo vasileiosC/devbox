@@ -52,6 +52,18 @@ RUN apt-get update \
  && apt-get install -y gh \
  && rm -rf /var/lib/apt/lists/*
 
+# Go toolchain
+COPY --from=golang:1.27 /usr/local/go /usr/local/go
+ENV PATH="/usr/local/go/bin:${PATH}"
+
+# gopls
+RUN GOBIN=/usr/local/bin go install golang.org/x/tools/gopls@latest \
+ && rm -rf /root/go /root/.cache/go-build
+
+# golangci-lint (official prebuilt binary)
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh \
+    | sh -s -- -b /usr/local/bin
+
 # Set the default user for terminal sessions.
 USER devbox
 WORKDIR /home/devbox
