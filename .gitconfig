@@ -1,0 +1,19 @@
+[user]
+	name = vas
+	email = vasileiosC@users.noreply.github.com
+	signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJzix8/yBWcsdQo8rwBigPG+fCqGG0FHtFWRlwhFVdqt
+[init]
+	defaultBranch = main
+[core]
+	excludesfile = ~/.gitignore
+[color]
+	ui = auto
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
+[include]
+	path = ~/.gitconfig.local
+
