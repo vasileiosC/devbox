@@ -118,4 +118,5 @@ RUN [ -f .claude.json ] || echo '{}' > .claude.json && \
 # ~/.gitconfig symlink. Build context must be the repo root.
 RUN mkdir -p .claude
 COPY --chown=devbox:devbox .claude/settings.json .claude/settings.json
+COPY --chown=devbox:devbox .claude/CLAUDE.draft.md .claude/CLAUDE.md
 COPY --chown=devbox:devbox .editorconfig .gitconfig .vimrc .bashrc .zshrc ./
