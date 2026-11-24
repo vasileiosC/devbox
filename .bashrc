@@ -5,6 +5,9 @@ if [[ $- == *i* ]] && ! infocmp "$TERM" >/dev/null 2>&1; then
   export TERM=xterm-256color
 fi
 
+# Move outside devbox config and into general workspace directory
+[[ $- == *i* ]] && cd /workspaces
+
 # Namespace's devbox agent always starts bash, so switch to zsh for interactive shells
 [[ $- == *i* && -x "$(command -v zsh)" ]] && exec zsh -l
 
