@@ -5,7 +5,7 @@ DOTFILES="workspaces/dotfiles"
 OS="$(uname -s)"
 
 # Shared setup
-"$DOTFILES/install-common.sh"
+"$DOTFILES/.devbox/install-common.sh"
 
 # Platform-specific setup
 if [ "$OS" = "Linux" ]; then
