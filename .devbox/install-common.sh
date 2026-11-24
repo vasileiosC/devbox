@@ -30,3 +30,5 @@ done
 printf "Installing Claude...\n"
 curl -fsSL https://claude.ai/install.sh | bash
 
+# Skip Claude onboarding
+[ -f ~/.claude.json ] || echo '{"hasCompletedOnboarding": true}' > ~/.claude.json
