@@ -10,6 +10,15 @@ set -euo pipefail
 op read 'op://Claude/GitHub PAT/credential' | gh auth login --with-token
 
 ####################################
+## Git commit signing
+####################################
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+(umask 077; op read 'op://Claude/GitHub Sign Key/private key?ssh-format=openssh' > ~/.ssh/devbox_signing)
+
+signing_pub="$(op read 'op://Claude/GitHub Sign Key/public key')"
+echo "$(git config user.email) $signing_pub" > ~/.ssh/allowed_signers
+
+####################################
 ## Claude bootstrapping
 ####################################
 

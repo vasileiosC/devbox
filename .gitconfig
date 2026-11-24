@@ -1,7 +1,7 @@
 [user]
 	name = vas
 	email = vasileiosC@users.noreply.github.com
-	signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJzix8/yBWcsdQo8rwBigPG+fCqGG0FHtFWRlwhFVdqt
+	signingkey = ~/.ssh/devbox_signing
 [init]
 	defaultBranch = main
 [core]
@@ -14,9 +14,7 @@
 	gpgsign = true
 [tag]
 	gpgsign = true
-[include]
-	path = ~/.gitconfig.local
 [credential "https://github.com"]
 	helper =
-	helper = !/usr/bin/gh auth git-credential
+	helper = !gh auth git-credential
 
