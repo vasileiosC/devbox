@@ -43,6 +43,10 @@ tmp="$(mktemp)" && jq --arg v "$(claude --version | awk '{print $1}')" \
   '.hasCompletedOnboarding = true | .lastOnboardingVersion = $v' \
   ~/.claude.json > "$tmp" && mv "$tmp" ~/.claude.json
 
+# Linear MCP
+claude mcp get linear >/dev/null 2>&1 || claude mcp add --scope user --transport http linear https://mcp.linear.app/mcp \
+  --header "Authorization: Bearer $(op read 'op://Claude/Linear API Key/credential')"
+
 ####################################
 ## Set default shell
 ####################################
