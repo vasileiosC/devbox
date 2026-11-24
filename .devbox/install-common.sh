@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-# Shared setup for all platforms (macOS + Linux/containers).
+# Shared setup for Namespace devboxes.
 # Called by install.sh — not meant to be run directly.
 
-DOTFILES="$HOME/.dotfiles"
+DOTFILES="/workspaces/dotfiles"
 
 ####################################
 ## Dotfile symlinks

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-DOTFILES="$HOME/.dotfiles"
+DOTFILES="workspaces/dotfiles"
 OS="$(uname -s)"
 
 # Shared setup
@@ -16,4 +16,4 @@ else
 fi
 
 echo ""
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+echo "Done."
