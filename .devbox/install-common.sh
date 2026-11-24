@@ -14,6 +14,7 @@ dotfile_exact=(
   ".claude/settings.json"
   ".editorconfig"
   ".gitconfig"
+  ".bashrc"
   ".zshrc"
 )
 
