@@ -1,4 +1,7 @@
-export PATH="$HOME/.local/bin:$PATH"
+# Fall back to a known terminal type if this container lacks the one the client sent (e.g. xterm-ghostty)
+if [[ $- == *i* ]] && ! infocmp "$TERM" >/dev/null 2>&1; then
+  export TERM=xterm-256color
+fi
 
 # Style
 export CLICOLOR=1                  # colored `ls` (folders, links, executables)
