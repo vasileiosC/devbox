@@ -114,9 +114,9 @@ RUN [ -f .claude.json ] || echo '{}' > .claude.json && \
 ####################################
 
 RUN mkdir -p .claude && \
-    ln -sf /workspaces/dotfiles/.claude/settings.json .claude/settings.json && \
-    ln -sf /workspaces/dotfiles/.editorconfig         .editorconfig && \
-    ln -sf /workspaces/dotfiles/.gitconfig            .gitconfig && \
-    ln -sf /workspaces/dotfiles/.vimrc                .vimrc && \
-    ln -sf /workspaces/dotfiles/.bashrc               .bashrc && \
-    ln -sf /workspaces/dotfiles/.zshrc                .zshrc
+    ln -sf /workspaces/devbox/.claude/settings.json .claude/settings.json && \
+    ln -sf /workspaces/devbox/.editorconfig         .editorconfig && \
+    ln -sf /workspaces/devbox/.gitconfig            .gitconfig && \
+    ln -sf /workspaces/devbox/.vimrc                .vimrc && \
+    ln -sf /workspaces/devbox/.bashrc               .bashrc && \
+    ln -sf /workspaces/devbox/.zshrc                .zshrc
