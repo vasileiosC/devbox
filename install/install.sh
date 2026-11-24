@@ -26,10 +26,17 @@ echo "$(git config user.email) $signing_pub" > ~/.ssh/allowed_signers
 ####################################
 
 # Linear MCP
+# Claude runs headersHelper on each connect, so the API key is read from
+# 1Password at runtime and never written to disk.
+linear_helper=$(cat <<'EOF'
+op read 'op://Claude/Linear API Key/credential' | jq -Rc '{Authorization: ("Bearer " + .)}'
+EOF
+)
+linear_config=$(jq -nc --arg helper "$linear_helper" \
+  '{type: "http", url: "https://mcp.linear.app/mcp", headersHelper: $helper}')
+
 if ! claude mcp get linear >/dev/null 2>&1; then
-  linear_key="$(op read 'op://Claude/Linear API Key/credential')"
-  claude mcp add --scope user --transport http linear https://mcp.linear.app/mcp \
-    --header "Authorization: Bearer $linear_key"
+  claude mcp add-json --scope user linear "$linear_config"
 fi
 
 echo ""
