@@ -16,7 +16,3 @@
 	gpgsign = true
 [tag]
 	gpgsign = true
-[credential "https://github.com"]
-	helper =
-	helper = !gh auth git-credential
-
