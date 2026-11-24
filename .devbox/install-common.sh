@@ -26,3 +26,6 @@ for file in "${dotfile_exact[@]}"; do
   echo "> $HOME/$file"
 done
 
+printf "Installing Claude...\n"
+curl -fsSL https://claude.ai/install.sh | bash
+
