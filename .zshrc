@@ -1,3 +1,5 @@
+export PATH="$HOME/.local/bin:$PATH"
+
 # Style
 export CLICOLOR=1                  # colored `ls` (folders, links, executables)
 alias grep='grep --color=auto'     # highlight matches
