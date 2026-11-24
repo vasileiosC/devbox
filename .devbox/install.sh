@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-DOTFILES="/workspaces/dotfiles"
+DOTFILES="/workspaces/dotfiles/.devbox"
 OS="$(uname -s)"
 
 # Shared setup
-"$DOTFILES/.devbox/install-common.sh"
+"$DOTFILES/install-common.sh"
 
 # Platform-specific setup
 if [ "$OS" = "Linux" ]; then
