@@ -5,7 +5,7 @@ Custom base image for [Namespace Devboxes](https://namespace.so/docs/devbox/imag
 ## Build
 
 ```sh
-devbox image build . --name=basebox-$(date +%d%b | tr A-Z a-z) -f .devbox/Dockerfile
+devbox image build . --name=basebox-$(date +%d%b | tr A-Z a-z) -f install/Dockerfile
 ```
 
 The build runs on Namespace's remote builders — no local Docker required. The

@@ -110,13 +110,12 @@ RUN [ -f .claude.json ] || echo '{}' > .claude.json && \
     mv /tmp/claude.json .claude.json
 
 ####################################
-## Dotfile symlinks
+## Dotfiles
 ####################################
 
-RUN mkdir -p .claude && \
-    ln -sf /workspaces/devbox/.claude/settings.json .claude/settings.json && \
-    ln -sf /workspaces/devbox/.editorconfig         .editorconfig && \
-    ln -sf /workspaces/devbox/.gitconfig            .gitconfig && \
-    ln -sf /workspaces/devbox/.vimrc                .vimrc && \
-    ln -sf /workspaces/devbox/.bashrc               .bashrc && \
-    ln -sf /workspaces/devbox/.zshrc                .zshrc
+# Copied (not symlinked) so they exist at boot, before the repo is cloned:
+# Namespace runs `git config --global` at boot, which fails on a dangling
+# ~/.gitconfig symlink. Build context must be the repo root.
+RUN mkdir -p .claude
+COPY --chown=devbox:devbox .claude/settings.json .claude/settings.json
+COPY --chown=devbox:devbox .editorconfig .gitconfig .vimrc .bashrc .zshrc ./
