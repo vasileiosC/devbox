@@ -4,7 +4,7 @@ set -e
 # Shared setup for Namespace devboxes.
 # Called by install.sh — not meant to be run directly.
 
-DOTFILES="/workspaces/dotfiles"
+INSTALL="/workspaces/devbox"
 
 ####################################
 ## Dotfile symlinks
@@ -18,12 +18,11 @@ dotfile_exact=(
   ".zshrc"
 )
 
-
 printf "Linking config files...\n"
 for file in "${dotfile_exact[@]}"; do
   mkdir -p "$(dirname "$HOME/$file")"
   rm -rf "$HOME/$file"
-  ln -s "$DOTFILES/$file" "$HOME/$file"
+  ln -s "$INSTALL/$file" "$HOME/$file"
   echo "> $HOME/$file"
 done
 

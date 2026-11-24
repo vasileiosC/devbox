@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-DOTFILES="/workspaces/dotfiles/.devbox"
+INSTALL="/workspaces/devbox/install"
 OS="$(uname -s)"
 
 # Shared setup
-"$DOTFILES/install-common.sh"
+"$INSTALL/install-common.sh"
 
 # Platform-specific setup
 if [ "$OS" = "Linux" ]; then
   printf "\nDetected Linux — running Linux setup...\n"
-  "$DOTFILES/install-linux.sh"
+  "$INSTALL/install-linux.sh"
 else
   printf "\nUnknown OS: $OS — skipping platform-specific setup.\n"
 fi
