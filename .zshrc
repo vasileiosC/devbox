@@ -7,6 +7,11 @@ source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 PROMPT='%F{cyan}%~%f %F{magenta}❯%f '   # cyan folder path, magenta arrow
 alias ls='eza --icons --group-directories-first'
+
+# Some distros call it bat, some batcat
+if command -v batcat >/dev/null; then
+  alias bat='batcat'
+fi
 alias cat='bat --paging=never'
 
 # Go

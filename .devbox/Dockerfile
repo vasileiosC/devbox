@@ -12,6 +12,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
     zsh \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
+    eza \
+    bat \
     xz-utils \
     curl \
     build-essential \
