@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-DOTFILES="workspaces/dotfiles"
+DOTFILES="/workspaces/dotfiles"
 OS="$(uname -s)"
 
 # Shared setup
