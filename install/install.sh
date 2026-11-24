@@ -5,9 +5,12 @@ set -euo pipefail
 : "${OP_SERVICE_ACCOUNT_TOKEN:?OP_SERVICE_ACCOUNT_TOKEN is not set}"
 
 ####################################
-## GitHub bootstrapping
+## Git/GitHub bootstrapping
 ####################################
 op read 'op://Claude/GitHub PAT/credential' | gh auth login --with-token
+
+# Namespace rewrites ~/.gitconfig at boot (email, credential helper); restore the right one
+cp /workspaces/devbox/.gitconfig ~/.gitconfig
 
 ####################################
 ## Git commit signing
@@ -17,11 +20,6 @@ mkdir -p ~/.ssh && chmod 700 ~/.ssh
 
 signing_pub="$(op read 'op://Claude/GitHub Sign Key/public key')"
 echo "$(git config user.email) $signing_pub" > ~/.ssh/allowed_signers
-
-# Namespace rewrites gitconfig so some fields need to be reset
-git config --global --unset-all credential.https://github.com.helper || true
-git config --global --add credential.https://github.com.helper ''
-git config --global --add credential.https://github.com.helper '!gh auth git-credential'
 
 ####################################
 ## Claude bootstrapping
