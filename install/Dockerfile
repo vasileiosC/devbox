@@ -2,6 +2,7 @@ FROM ubuntu:24.04
 
 # Install common development tools.
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    less \
     sudo \
     git \
     git-lfs \
@@ -31,20 +32,34 @@ RUN adduser --disabled-password --gecos "" --uid 1001 devbox \
     && echo "devbox ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/devbox \
     && chmod 0440 /etc/sudoers.d/devbox
 
-# 1password CLI
-RUN curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
-  sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg && \
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$(dpkg --print-architecture) stable main" | \
-  sudo tee /etc/apt/sources.list.d/1password.list && \
-  sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/ && \
-  curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | \
-  sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol && \
-  sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22 && \
-  curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
-  sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg && \
-  sudo apt update && sudo apt install 1password-cli
+# Extend PATH so claude/gh etc are resolvable 
+ENV PATH="/home/devbox/.local/bin:${PATH}"
 
-# GitHub CLI
+####################################
+## Default shell
+####################################
+RUN chsh -s /usr/bin/zsh devbox
+
+####################################
+## 1password CLI
+####################################
+
+RUN curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+  gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg && \
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$(dpkg --print-architecture) stable main" | \
+  tee /etc/apt/sources.list.d/1password.list && \
+  mkdir -p /etc/debsig/policies/AC2D62742012EA22/ && \
+  curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | \
+  tee /etc/debsig/policies/AC2D62742012EA22/1password.pol && \
+  mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22 && \
+  curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+  gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg && \
+  apt-get update && apt-get install -y 1password-cli && rm -rf /var/lib/apt/lists/*
+
+####################################
+## GitHub CLI
+####################################
+
 RUN apt-get update \
  && apt-get install -y wget \
  && mkdir -p -m 755 /etc/apt/keyrings \
@@ -56,6 +71,10 @@ RUN apt-get update \
  && apt-get update \
  && apt-get install -y gh \
  && rm -rf /var/lib/apt/lists/*
+
+####################################
+## Golang
+####################################
 
 # Go toolchain
 COPY --from=golang:1.27 /usr/local/go /usr/local/go
@@ -69,7 +88,34 @@ RUN GOBIN=/usr/local/bin go install golang.org/x/tools/gopls@latest \
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh \
     | sh -s -- -b /usr/local/bin
 
+####################################
+## devbox user past this line
+####################################
+
 # Set the default user for terminal sessions.
 USER devbox
 WORKDIR /home/devbox
 
+####################################
+## Claude Code
+####################################
+RUN curl -fsSL https://claude.ai/install.sh | bash
+
+# Skip Claude onboarding
+RUN [ -f .claude.json ] || echo '{}' > .claude.json && \
+    jq --arg v "$(claude --version | awk '{print $1}')" \
+      '.hasCompletedOnboarding = true | .lastOnboardingVersion = $v' \
+      .claude.json > /tmp/claude.json && \
+    mv /tmp/claude.json .claude.json
+
+####################################
+## Dotfile symlinks
+####################################
+
+RUN mkdir -p .claude && \
+    ln -sf /workspaces/dotfiles/.claude/settings.json .claude/settings.json && \
+    ln -sf /workspaces/dotfiles/.editorconfig         .editorconfig && \
+    ln -sf /workspaces/dotfiles/.gitconfig            .gitconfig && \
+    ln -sf /workspaces/dotfiles/.vimrc                .vimrc && \
+    ln -sf /workspaces/dotfiles/.bashrc               .bashrc && \
+    ln -sf /workspaces/dotfiles/.zshrc                .zshrc
