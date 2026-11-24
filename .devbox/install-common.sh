@@ -31,4 +31,8 @@ printf "Installing Claude...\n"
 curl -fsSL https://claude.ai/install.sh | bash
 
 # Skip Claude onboarding
-[ -f ~/.claude.json ] || echo '{"hasCompletedOnboarding": true}' > ~/.claude.json
+[ -f ~/.claude.json ] || echo '{}' > ~/.claude.json
+tmp="$(mktemp)" && jq --arg v "$(claude --version | awk '{print $1}')" \
+  '.hasCompletedOnboarding = true | .lastOnboardingVersion = $v' \
+  ~/.claude.json > "$tmp" && mv "$tmp" ~/.claude.json
+
