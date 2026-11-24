@@ -7,6 +7,6 @@ set -e
 
 if [ "$SHELL" != "$(which zsh)" ]; then
   printf "\nSetting zsh as default shell...\n"
-  sudo chsh -s "$(which zsh)" "$(whoami)" 2>/dev/null || true
+  sudo chsh -s "$(command -v zsh)" "$(whoami)"
 fi
 

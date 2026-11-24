@@ -3,8 +3,8 @@ export PATH="$HOME/.local/bin:$PATH"
 # Style
 export CLICOLOR=1                  # colored `ls` (folders, links, executables)
 alias grep='grep --color=auto'     # highlight matches
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 PROMPT='%F{cyan}%~%f %F{magenta}❯%f '   # cyan folder path, magenta arrow
 alias ls='eza --icons --group-directories-first'
 alias cat='bat --paging=never'
